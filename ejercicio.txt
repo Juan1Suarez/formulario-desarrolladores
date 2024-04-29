@@ -1,0 +1,8 @@
+Me llamó el secretario de desarrollo informático de la nación, me contó que tienen un formulario de registro de desarrolladores desempleados donde ingresan dni nombre provincia y localidad y 
+tiene el problema que la gente ingresa la provincia en un input de texto entonces tiene registros como: "Chubut", "chubut", "Pcia Chubut" y no pueden filtrar la información correctamente.
+Ante la negativa de usar un select porque sería muy largo (24 provincias) me pidio que desarrollemos un formulario con un autocomplete de provincias.
+Le sugerí usar la librería react-bootstrap-typeahead que permite implementar el autocomplete.(obligatorio)
+Entonces, tengo dos equipos para ver si implementamos esto con alguna de las siguientes opciones
+1 - react-form-hook
+2 - Formik
+La clave aquí es que al enviar el formulario el valor del autocomplete sea parte del formulario sin tener que programar nada mas.
