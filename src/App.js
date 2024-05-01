@@ -7,31 +7,43 @@ import provincias from './provincias';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 function App() {
-  const [provincia, setProvincia] = useState([])
+  const [provincia, setProvincia] = useState([]);
   return (
     <><h1>Bienvenidos al registro de desarrolladores </h1>
             <Formik
         initialValues={{
-          fullName: '',
-          dni: '',
+          fullname: '',
+          DNI: '',
           localidad: '',
           provincia: ''
         }}
         validate={values => {
           const errors = {};
 
-          if (!values.fullName) {
-            errors.fullName = 'El nombre completo es requerido';
+          if (!values.fullname) {
+            errors.fullname = 'El nombre completo es requerido';
           }
+          else if ( values.fullname.length < 4) {errors.fullname = 'El nombre debe contener al menos 4 letras'
+        }
 
-          if (!values.dni) {
-            errors.dni = 'El DNI es requerido';
+          if (!values.DNI) {
+            errors.DNI = 'El DNI es requerido';
           }
+          else if (!/^\d{8}$/.test(values.DNI)) {errors.DNI = 'El DNI debe contener 8 digitos'
+        }
+
+          if (!values.localidad) {
+            errors.localidad = 'La localidad es requerida';
+              }
+            else if ( values.localidad.length < 3) {errors.localidad = 'La localidad debe contener al menos 3 letras'
+            }
+
+
           return errors;
         }}
         onSubmit={(values, actions) => {
-          // Aquí manejas la lógica de envío del formulario
           console.log(values);
+          actions.resetForm();
           actions.setSubmitting(false);
         }}
       >
@@ -39,7 +51,7 @@ function App() {
           <Form>
             <Field
               type="text"
-              name="Nombre completo"
+              name="fullname"
               placeholder="Nombre completo"
             />
             <ErrorMessage name="fullname" component="div" />
@@ -53,6 +65,7 @@ function App() {
 
             <Typeahead
               id="typeaheadProvincia"
+              name="provincia"
               labelKey="nombre"
               options={provincias}
               placeholder="Provincia"
@@ -60,12 +73,14 @@ function App() {
               onChange={setProvincia}
             />
             
+              <ErrorMessage name="provincia" component="div" />
+            
             <Field
               type="text"
-              name="Localidad"
+              name="localidad"
               placeholder="Localidad"
             />
-            <ErrorMessage name="DNI" component="div" />
+            <ErrorMessage name="localidad" component="div" />
 
             <button type="submit" disabled={isSubmitting}>
               Submit
