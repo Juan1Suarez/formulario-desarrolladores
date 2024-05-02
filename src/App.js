@@ -1,13 +1,12 @@
 
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import provincias from './provincias';
 import { Formik, Field, Form, ErrorMessage  } from 'formik';
 
 function App() {
-  const [provincia, setProvincia] = useState([]);
   return (
     <><h1 className='titulo'>Bienvenidos al registro de desarrolladores </h1>
       <Formik
@@ -34,6 +33,10 @@ function App() {
             errors.DNI = 'El DNI debe contener 8 digitos'
           }
 
+          if (!values.provincia) {
+            errors.provincia = 'La provincia es requerida';
+          }
+
           if (!values.localidad) {
             errors.localidad = 'La localidad es requerida';
           }
@@ -41,20 +44,16 @@ function App() {
             errors.localidad = 'La localidad debe contener al menos 3 letras'
           }
 
-          if (!values.provincia) {
-            errors.provincia = 'Selecciona una provincia';
-          }
-
-
           return errors;
         }}
         onSubmit={(values, actions) => {
           console.log(values);
           actions.resetForm();
           actions.setSubmitting(false);
+          alert(JSON.stringify(values, null, 2));
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form className='form'>
             <Field className="field"
               type="text"
@@ -79,8 +78,7 @@ function App() {
               labelKey="nombre"
               options={provincias}
               placeholder="Provincia"
-              selected={provincia}
-              onChange={setProvincia}
+              onChange={(selected) => setFieldValue('provincia', selected[0] ? selected[0].nombre : '')}
             />
             <br></br>
             <ErrorMessage name="provincia" component="div" className='color' />
@@ -93,7 +91,7 @@ function App() {
             <ErrorMessage name="localidad" component="div" className='color' />
 
             <button className="boton" type="submit" disabled={isSubmitting}>
-              Submit
+              Enviar
             </button>
 
           </Form>
