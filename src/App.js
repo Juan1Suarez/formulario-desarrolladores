@@ -9,7 +9,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 function App() {
   const [provincia, setProvincia] = useState([]);
   return (
-    <><h1>Bienvenidos al registro de desarrolladores </h1>
+    <><h1 className='titulo'>Bienvenidos al registro de desarrolladores </h1>
             <Formik
         initialValues={{
           fullname: '',
@@ -38,6 +38,11 @@ function App() {
             else if ( values.localidad.length < 3) {errors.localidad = 'La localidad debe contener al menos 3 letras'
             }
 
+            if (!values.provincia) {
+              errors.provincia = 'La provincia es requerida';
+                }
+  
+
 
           return errors;
         }}
@@ -48,43 +53,47 @@ function App() {
         }}
       >
         {({ isSubmitting }) => (
-          <Form>
-            <Field
+          <Form className='form'>
+            <Field className="field"
               type="text"
               name="fullname"
               placeholder="Nombre completo"
             />
-            <ErrorMessage name="fullname" component="div" />
 
-            <Field
+            <ErrorMessage name="fullname" component="div" className='color'/>
+            <br></br><br></br>
+            <Field className="field"
               type="number"
               name="DNI"
               placeholder="DNI"
             />
-            <ErrorMessage name="DNI" component="div" />
+            <ErrorMessage name="DNI" component="div" className='color' />
 
-            <Typeahead
-              id="typeaheadProvincia"
-              name="provincia"
+            <br></br><br></br>
+
+            <Typeahead className="field"
+              id= "typeaheadProvincia"
+              name= "provincia"
               labelKey="nombre"
               options={provincias}
               placeholder="Provincia"
               selected={provincia}
               onChange={setProvincia}
-            />
-            
-              <ErrorMessage name="provincia" component="div" />
-            
-            <Field
+            /> 
+           
+              <ErrorMessage name="provincia" component="div" className='color' />
+             <br></br>
+            <Field className="field"
               type="text"
               name="localidad"
               placeholder="Localidad"
             />
-            <ErrorMessage name="localidad" component="div" />
-
+            <ErrorMessage name="localidad" component="div" className='color' />
+            <br></br><br></br>
             <button type="submit" disabled={isSubmitting}>
               Submit
             </button>
+            
           </Form>
         )}
       </Formik>

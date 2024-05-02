@@ -1,0 +1,23 @@
+.titulo{
+    position: relative;
+    left: 550px;
+}
+.color{
+    color: red;
+    position: relative;
+}
+
+.form{
+    background-color: lightblue;
+    position: relative;
+    width: 650px;
+    left: 600px;
+    top: 60px;
+    border-radius: 10px;
+}
+
+.field{
+    position: relative;
+    border-radius: 5px;
+    width: 500px;
+}
