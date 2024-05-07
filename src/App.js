@@ -4,7 +4,21 @@ import React from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import provincias from './provincias';
-import { Formik, Field, Form, ErrorMessage  } from 'formik';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+  fullname: Yup.string()
+    .required('El nombre completo es requerido')
+    .min(4, 'El nombre debe contener al menos 4 letras'),
+  DNI: Yup.string()
+    .required('El DNI es requerido')
+    .matches(/^\d{8}$/, 'El DNI debe contener 8 digitos'),
+  provincia: Yup.string().required('La provincia es requerida'),
+  localidad: Yup.string()
+    .required('La localidad es requerida')
+    .min(3, 'La localidad debe contener al menos 3 letras'),
+});
 
 function App() {
   return (
@@ -16,36 +30,8 @@ function App() {
           localidad: '',
           provincia: ''
         }}
-        validate={values => {
-          const errors = {};
+        validationSchema={validationSchema}
 
-          if (!values.fullname) {
-            errors.fullname = 'El nombre completo es requerido';
-          }
-          else if (values.fullname.length < 4) {
-            errors.fullname = 'El nombre debe contener al menos 4 letras'
-          }
-
-          if (!values.DNI) {
-            errors.DNI = 'El DNI es requerido';
-          }
-          else if (!/^\d{8}$/.test(values.DNI)) {
-            errors.DNI = 'El DNI debe contener 8 digitos'
-          }
-
-          if (!values.provincia) {
-            errors.provincia = 'La provincia es requerida';
-          }
-
-          if (!values.localidad) {
-            errors.localidad = 'La localidad es requerida';
-          }
-          else if (values.localidad.length < 3) {
-            errors.localidad = 'La localidad debe contener al menos 3 letras'
-          }
-
-          return errors;
-        }}
         onSubmit={(values, actions) => {
           console.log(values);
           actions.resetForm();
